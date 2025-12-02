@@ -5,6 +5,7 @@ import Layout from '../components/Layout';
 import Button from '../components/ui/Button';
 import { METHODOLOGY_7P, WHATSAPP_NUMBER, INSTAGRAM_URL, YOUTUBE_URL, BRAND_ILLUSTRATION_URL } from '../constants';
 import { ArrowRight, Video, MessageCircle, AlertTriangle, Instagram } from 'lucide-react';
+import TickerGastronomico from '../components/TickerGastronomico';
 
 const Home = () => {
   const [imgError, setImgError] = useState(false);
@@ -15,7 +16,7 @@ const Home = () => {
       <div className="relative overflow-hidden min-h-[90vh] flex items-center">
         
         {/* DESKTOP OCTOPUS IMAGE: Absolute positioning relative to SCREEN (viewport), not container */}
-        <div className="hidden lg:block absolute top-1/2 right-0 -translate-y-1/2 h-[95vh] w-[55vw] translate-x-12 z-10 pointer-events-none">
+        <div className="hidden lg:block absolute top-1/2 right-0 -translate-y-1/2 h-[95vh] w-[50vw] translate-x-12 z-10 pointer-events-none">
              {/* Decorative Glow behind Octopus */}
              <div className="absolute top-1/2 left-[60%] -translate-x-1/2 -translate-y-1/2 w-[60%] h-[60%] bg-[#00344F]/40 rounded-full blur-[80px] -z-10 animate-pulse"></div>
 
@@ -118,6 +119,9 @@ const Home = () => {
           </div>
         </div>
       </div>
+
+      {/* TICKER GASTRONÓMICO */}
+      <TickerGastronomico />
 
       {/* Methodology Summary - Dark */}
       <div className="bg-[#000d14]/80 backdrop-blur-sm py-24 border-t border-slate-900 relative z-20">

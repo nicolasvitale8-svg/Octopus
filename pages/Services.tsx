@@ -1,9 +1,10 @@
 
+
 import React from 'react';
 import Layout from '../components/Layout';
-import { WHATSAPP_NUMBER } from '../constants';
+import { WHATSAPP_NUMBER, COLIFA_MENU_URL, TECHNICAL_SHEETS_EXAMPLE_URL, PROCESS_EXAMPLE_URL } from '../constants';
 import Button from '../components/ui/Button';
-import { CheckCircle, ArrowRight, Star, TrendingUp, Settings, BarChart2, Users, Layers, Zap, Download, ExternalLink } from 'lucide-react';
+import { CheckCircle, ArrowRight, Star, TrendingUp, Settings, BarChart2, Users, Layers, Zap, Download, ExternalLink, FileText } from 'lucide-react';
 
 const Services = () => {
   return (
@@ -281,13 +282,28 @@ const Services = () => {
                    <p className="text-slate-400 text-sm">Ejemplos reales de herramientas que implementamos.</p>
                 </div>
                 <div className="flex flex-wrap gap-3">
-                   <Button variant="outline" className="text-xs">
-                     <ExternalLink className="w-3 h-3 mr-2" /> Carta Digital COLIFA
-                   </Button>
-                   <Button variant="outline" className="text-xs">
-                     <Download className="w-3 h-3 mr-2" /> Procesos Ejemplo PDF
-                   </Button>
-                   <Button variant="outline" className="text-xs">
+                   {/* Colifa Menu Linked Button */}
+                   <a href={COLIFA_MENU_URL || '#'} target="_blank" rel="noreferrer">
+                      <Button variant="outline" className="text-xs hover:border-[#1FB6D5] hover:text-[#1FB6D5]">
+                        <ExternalLink className="w-3 h-3 mr-2" /> Carta Digital COLIFA
+                      </Button>
+                   </a>
+                   
+                   {/* Technical Sheets Example Linked Button */}
+                   <a href={TECHNICAL_SHEETS_EXAMPLE_URL || '#'} target="_blank" rel="noreferrer">
+                      <Button variant="outline" className="text-xs hover:border-[#1FB6D5] hover:text-[#1FB6D5]">
+                        <FileText className="w-3 h-3 mr-2" /> Ejemplo Ficha Técnica
+                      </Button>
+                   </a>
+
+                   {/* Process Example Linked Button */}
+                   <a href={PROCESS_EXAMPLE_URL || '#'} target="_blank" rel="noreferrer">
+                      <Button variant="outline" className="text-xs hover:border-[#1FB6D5] hover:text-[#1FB6D5]">
+                        <Layers className="w-3 h-3 mr-2" /> Ejemplo Procesos
+                      </Button>
+                   </a>
+                   
+                   <Button variant="outline" className="text-xs hover:border-[#1FB6D5] hover:text-[#1FB6D5]">
                      <ExternalLink className="w-3 h-3 mr-2" /> Cerdo Va! Ops
                    </Button>
                 </div>

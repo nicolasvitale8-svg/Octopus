@@ -12,6 +12,7 @@ import ResourceDetail from './pages/ResourceDetail';
 import AdminLeads from './pages/AdminLeads';
 import About from './pages/About';
 import Services from './pages/Services';
+import CalendarPage from './pages/Calendar';
 
 const App = () => {
   return (
@@ -28,6 +29,7 @@ const App = () => {
         <Route path="/admin/leads" element={<AdminLeads />} />
         <Route path="/about" element={<About />} />
         <Route path="/services" element={<Services />} />
+        <Route path="/calendar" element={<CalendarPage />} />
         <Route path="/admin" element={<Login />} /> {/* Placeholder reuse for demo */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

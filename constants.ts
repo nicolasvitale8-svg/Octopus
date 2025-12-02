@@ -1,5 +1,6 @@
 
-import { AcademyResource, LearningPath } from './types';
+
+import { AcademyResource, LearningPath, GastronomicEvent } from './types';
 
 export const WHATSAPP_NUMBER = "5493517736981"; 
 export const DISPLAY_PHONE = "+54 9 351 773-6981";
@@ -13,6 +14,11 @@ export const APP_NAME = "Octopus Coquinaria";
 export const GLOBAL_LOGO_URL = "https://i.postimg.cc/C1240jfz/logo-completo.png"; 
 export const GLOBAL_BACKGROUND_IMAGE_URL = "https://i.postimg.cc/dt6jtPdV/fondo-abismo-azul.png";
 export const BRAND_ILLUSTRATION_URL = "https://i.postimg.cc/dVtPLYx4/pulpo-completo-transparente.png";
+
+// --- EXTERNAL ASSETS LINKS ---
+export const COLIFA_MENU_URL = "https://drive.google.com/file/d/12x0CoM4lYMKMNSQWtNxPEEtT2eAMiCX4/view?usp=sharing"; 
+export const TECHNICAL_SHEETS_EXAMPLE_URL = "https://drive.google.com/file/d/1vfOyn2-cQ2ZKH6EDxbrL6RhCCbR65QEe/view?usp=drive_link"; 
+export const PROCESS_EXAMPLE_URL = "https://drive.google.com/file/d/18--dvReEprD_5RN3Q2llxn6Nw8giqeFt/view?usp=sharing"; 
 
 // --- PROFILE CONFIGURATION ---
 export const NICOLAS_PHOTO_URL = "https://i.postimg.cc/ht9zPVN8/Generated-Image-September-05-2025-2-20PM.jpg"; 
@@ -330,5 +336,109 @@ export const LEARNING_PATHS: LearningPath[] = [
     title: 'Ordenar el quilombo operativo',
     description: 'Dejá de apagar incendios y empezá a gestionar.',
     resourceIds: ['res_003', 'res_005']
+  }
+];
+
+// --- GASTRONOMIC TICKER DATA ---
+export const GASTRONOMIC_EVENTS: GastronomicEvent[] = [
+  {
+    id: "2025_12_01_feriado_pba",
+    tipo: "feriado_local",
+    fecha_inicio: "2025-12-01",
+    fecha_fin: "2025-12-01",
+    mensaje: "1 DIC: Feriado municipal en partes de PBA · Revisar horarios y apertura parcial.",
+    prioridad: 2,
+    visible_desde: "2024-01-01",
+    visible_hasta: "2026-01-01"
+  },
+  {
+    id: "2025_12_06_08_findelargo",
+    tipo: "feriado_nacional",
+    fecha_inicio: "2025-12-06",
+    fecha_fin: "2025-12-08",
+    mensaje: "6–8 DIC: Finde largo con feriado nacional lunes 8 · Alta demanda prevista, reforzar stock y personal.",
+    prioridad: 3,
+    visible_desde: "2024-01-01",
+    visible_hasta: "2026-01-01"
+  },
+  {
+    id: "2025_12_calor",
+    tipo: "clima",
+    fecha_inicio: "2025-12-01",
+    fecha_fin: "2025-12-10",
+    mensaje: "Alerta calor: ola de calor en gran parte del país · Suben consumo de bebidas frías, hielo y frescos.",
+    prioridad: 3,
+    visible_desde: "2024-01-01",
+    visible_hasta: "2026-01-01"
+  },
+  {
+    id: "2025_12_carnes_alza",
+    tipo: "precios_insumos",
+    fecha_inicio: "2025-12-01",
+    fecha_fin: "2025-12-07",
+    mensaje: "Carnes en alza: la categoría vuelve a presionar precios · Revisar costos de menú esta semana.",
+    prioridad: 3,
+    visible_desde: "2024-01-01",
+    visible_hasta: "2026-01-01"
+  },
+  {
+    id: "2025_11_inflacion_alimentos",
+    tipo: "precios_insumos",
+    fecha_inicio: "2025-11-30",
+    fecha_fin: "2025-12-07",
+    mensaje: "Inflación alimentos: noviembre con subas fuertes en productos frescos · Ajustar compras y mermas.",
+    prioridad: 2,
+    visible_desde: "2024-01-01",
+    visible_hasta: "2026-01-01"
+  },
+  {
+    id: "2025_12_consumo_familiar",
+    tipo: "tendencia_consumo",
+    fecha_inicio: "2025-12-01",
+    fecha_fin: "2025-12-15",
+    mensaje: "Consumo familiar en ajuste · Combos económicos y porciones inteligentes pueden mejorar rotación.",
+    prioridad: 2,
+    visible_desde: "2024-01-01",
+    visible_hasta: "2026-01-01"
+  },
+  {
+    id: "2025_12_stock_diciembre",
+    tipo: "operacion",
+    fecha_inicio: "2025-12-01",
+    fecha_fin: "2025-12-08",
+    mensaje: "Diciembre arranca fuerte · Prever stock, panificados y producción para el finde largo.",
+    prioridad: 3,
+    visible_desde: "2024-01-01",
+    visible_hasta: "2026-01-01"
+  },
+  {
+    id: "2025_12_proveedores",
+    tipo: "proveedores",
+    fecha_inicio: "2025-12-01",
+    fecha_fin: "2025-12-10",
+    mensaje: "Revisión de proveedores: aumentos desparejos · Conviene renegociar o adelantar compras estratégicas.",
+    prioridad: 2,
+    visible_desde: "2024-01-01",
+    visible_hasta: "2026-01-01"
+  },
+  {
+    id: "2025_12_tip_gestion",
+    tipo: "tip_gestion",
+    fecha_inicio: "2025-12-01",
+    fecha_fin: "2025-12-07",
+    mensaje: "Tip de gestión: buena semana para revisar CMV, ajustar precios y cargar proyecciones de demanda.",
+    prioridad: 1,
+    visible_desde: "2024-01-01",
+    visible_hasta: "2026-01-01"
+  },
+  {
+    id: "2025_12_hospitalidad_xxl",
+    tipo: "operacion",
+    fecha_inicio: "2025-12-06",
+    fecha_fin: "2025-12-08",
+    mensaje: "Hospitalidad: feriado XXL · Reforzar personal en picos y prever turnos extendidos.",
+    prioridad: 2,
+    visible_desde: "2024-01-01",
+    visible_hasta: "2026-01-01"
   }
 ];

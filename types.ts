@@ -135,3 +135,19 @@ export interface LearningPath {
   description: string;
   resourceIds: string[];
 }
+
+// --- TICKER TYPES ---
+
+export interface GastronomicEvent {
+  id: string;
+  tipo: 'feriado' | 'fecha_comercial' | 'clima' | 'precios_insumos' | 'tendencia_consumo' | 'operacion' | 'proveedores' | 'tip_gestion' | 'feriado_local' | 'feriado_nacional';
+  fecha_inicio: string;
+  fecha_fin: string;
+  mensaje?: string; // For simple format
+  titulo?: string; // For structured format
+  recomendacion?: string; // For structured format
+  prioridad: 1 | 2 | 3;
+  regiones?: string[];
+  visible_desde?: string;
+  visible_hasta?: string;
+}

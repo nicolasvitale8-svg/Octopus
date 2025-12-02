@@ -101,6 +101,28 @@
         display: inline-block;
         animation: shine-effect 6s ease-in-out infinite;
       }
+
+      /* Marquee Animation for Ticker */
+      @keyframes marquee {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+      }
+      
+      .animate-marquee {
+        display: inline-flex;
+        white-space: nowrap;
+        /* Aumentado a 144s (aprox 10% más rápido que 160s) */
+        animation: marquee 144s linear infinite; 
+        will-change: transform;
+      }
+      
+      .animate-marquee.paused {
+        animation-play-state: paused;
+      }
+
+      .animate-marquee:hover {
+        animation-play-state: paused;
+      }
       
       /* Animation utils */
       .animate-fade-in {
