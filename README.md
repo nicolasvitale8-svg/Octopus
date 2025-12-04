@@ -1,20 +1,36 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Octopus Coquinaria - Plataforma
 
-# Run and deploy your AI Studio app
+Este proyecto es una aplicación React construida con Vite, TypeScript y Tailwind CSS. Utiliza Supabase como base de datos opcional para almacenar los leads generados por el autodiagnóstico.
 
-This contains everything you need to run your app locally.
+## 🚀 Inicio Rápido
 
-View your app in AI Studio: https://ai.studio/apps/drive/1vx5Akn8Gq57SUkM5x2RLROrTYZSGyJvB
+1.  **Instalar dependencias:**
+    ```bash
+    npm install
+    ```
 
-## Run Locally
+2.  **Correr en local:**
+    ```bash
+    npm run dev
+    ```
 
-**Prerequisites:**  Node.js
+## ☁️ Configuración de Base de Datos (Supabase)
 
+Para que el formulario guarde los datos en la nube y funcione el panel de administración "consultor":
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+1.  Crea un proyecto en [Supabase.com](https://supabase.com).
+2.  Ve al **SQL Editor** en tu dashboard de Supabase.
+3.  Copia el contenido del archivo `supabase_schema.sql` de este proyecto y pégalo en el editor. Ejecuta el script.
+4.  Ve a **Project Settings > API**.
+5.  Copia la `Project URL` y la `anon public key`.
+6.  Si despliegas en Vercel, agrega estas variables de entorno:
+    *   `VITE_SUPABASE_URL`
+    *   `VITE_SUPABASE_ANON_KEY`
+
+## 📦 Despliegue en Vercel
+
+1.  Sube este código a tu GitHub.
+2.  Importa el repositorio en Vercel.
+3.  Vercel detectará automáticamente que es un proyecto Vite.
+4.  En la sección "Environment Variables", agrega las claves de Supabase obtenidas en el paso anterior.
+5.  Haz clic en **Deploy**.

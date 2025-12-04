@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import Layout from '../components/Layout';
 import Input from '../components/ui/Input';
@@ -5,6 +6,7 @@ import CurrencyInput from '../components/ui/CurrencyInput';
 import Button from '../components/ui/Button';
 import { DeepDiagnosticInput } from '../types';
 import { calculateDeepDiagnostic } from '../services/calculations';
+import { saveDeepDiagnosticResult } from '../services/storage';
 import { Save, AlertCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -33,9 +35,14 @@ const DeepDiagnostic = () => {
 
   const handleSave = () => {
     const result = calculateDeepDiagnostic(data);
-    console.log("Calculated:", result);
-    alert("Diagnóstico guardado con éxito. (Simulación)");
-    navigate('/dashboard');
+    const success = saveDeepDiagnosticResult(result);
+    
+    if (success) {
+        // No alert needed, just redirect for smooth UX
+        navigate('/dashboard');
+    } else {
+        alert("Hubo un error al guardar los datos.");
+    }
   };
 
   const TABS = ['Ventas', 'Costo Mercadería', 'Mano de Obra', 'Gastos Fijos'];

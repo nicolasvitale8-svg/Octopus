@@ -66,16 +66,17 @@ export const calculateQuickDiagnostic = (data: QuickDiagnosticData): QuickDiagno
   // Average of 1-5 scores normalized to 0-100
   const scores = Object.values(data.methodologyScores);
   const avgRawScore = scores.length > 0 ? scores.reduce((a, b) => a + b, 0) / scores.length : 0;
-  // Normalize 1-5 to 0-100: (val - 1) / 4 * 100
-  // But let's keep it simple: 5=100, 4=75, 3=50, 2=25, 1=0
-  const score7P = scores.length > 0 ? (avgRawScore / 5) * 100 : 0;
+  
+  // Correct Normalization: (val - 1) / (max - min) * 100
+  // Scale 1-5 maps to 0-100. 1 -> 0%, 3 -> 50%, 5 -> 100%
+  const score7P = scores.length > 0 ? ((avgRawScore - 1) / 4) * 100 : 0;
 
   // 4. Global Score (70% Financial, 30% 7P)
   const scoreGlobal = (scoreFinancial * 0.7) + (score7P * 0.3);
 
   // 5. Determine Status
   let status = DiagnosticStatus.GREEN;
-  if (scoreGlobal < 45) status = DiagnosticStatus.RED;
+  if (scoreGlobal < 50) status = DiagnosticStatus.RED; // Slightly stricter threshold (was 45)
   else if (scoreGlobal < 75) status = DiagnosticStatus.YELLOW;
 
   // 6. Profile Detection Logic
@@ -93,7 +94,7 @@ export const calculateQuickDiagnostic = (data: QuickDiagnosticData): QuickDiagno
     profileDescription = "Tenés una propuesta que probablemente guste, pero el negocio no está pensado como negocio. Mucho corazón, poco margen.";
   }
   // Profile: Pulpo atado (Low Tech/Observation & Bad Financials)
-  else if (((data.methodologyScores['T'] || 0) <= 2 || (data.methodologyScores['O'] || 0) <= 2) && scoreFinancial < 80) {
+  else if (((data.methodologyScores['T'] || 0) <= 2 || (data.methodologyScores['O_obs'] || 0) <= 2) && scoreFinancial < 80) {
     profileName = "Pulpo atado";
     profileDescription = "Tenés un buen potencial, pero estás manejando todo a ciegas. Mientras no mires números, estás con los tentáculos atados.";
   }
@@ -105,17 +106,24 @@ export const calculateQuickDiagnostic = (data: QuickDiagnosticData): QuickDiagno
 
   // 7. Priorities & Strengths
   const priorities: string[] = [];
+  
+  // Financial Priorities
   if (cogsPct > 35) priorities.push(`Bajar tu costo de mercadería urgente (está en ${cogsPct.toFixed(1)}%).`);
   if (laborPct > 30) priorities.push("Revisar la eficiencia de tu personal y turnos.");
   if (marginPct < 5) priorities.push("Revisar tu estructura de precios y costos fijos.");
-  if ((data.methodologyScores['O'] || 0) <= 2) priorities.push("Empezar a registrar ventas y gastos una vez por semana.");
-  if ((data.methodologyScores['P'] || 0) <= 2) priorities.push("Definir 3 metas numéricas claras.");
+
+  // 7P Methodology Priorities
+  if ((data.methodologyScores['O'] || 0) <= 3) priorities.push("Implementar checklists de apertura y cierre para ordenar la operación.");
+  if ((data.methodologyScores['T'] || 0) <= 3) priorities.push("Empezar a registrar ventas y gastos en un sistema o planilla.");
+  if ((data.methodologyScores['O_obs'] || 0) <= 3) priorities.push("Establecer una rutina semanal de análisis de números.");
+  if ((data.methodologyScores['P'] || 0) <= 3) priorities.push("Definir 3 metas numéricas claras para el mes.");
+  if ((data.methodologyScores['C'] || 0) <= 3) priorities.push("Revisar la rentabilidad y concepto de la carta.");
   
   // Fill with generic if empty
   if (priorities.length === 0) priorities.push("Mantener los costos bajo control.", "Buscar oportunidades para subir el ticket promedio.");
 
   const strengths: string[] = [];
-  if ((data.methodologyScores['O'] || 0) >= 4) strengths.push("Buen hábito de observación de números.");
+  if ((data.methodologyScores['O_obs'] || 0) >= 4) strengths.push("Buen hábito de observación de números.");
   if ((data.methodologyScores['T'] || 0) >= 4) strengths.push("Buen uso de tecnología/registros.");
   if ((data.methodologyScores['C'] || 0) >= 4) strengths.push("Propuesta creativa y dinámica.");
   if (cogsScore === 100) strengths.push("Excelente control de costo de mercadería.");

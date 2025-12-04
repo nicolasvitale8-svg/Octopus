@@ -1,8 +1,9 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, BarChart2, LogOut, User as UserIcon } from 'lucide-react';
+import { Menu, X, BarChart2, LogOut, User as UserIcon, Database } from 'lucide-react';
 import { APP_NAME, INSTAGRAM_URL, DISPLAY_PHONE, CONTACT_EMAIL, YOUTUBE_URL, WHATSAPP_NUMBER, GLOBAL_LOGO_URL, GLOBAL_BACKGROUND_IMAGE_URL } from '../constants';
+import { supabase } from '../services/supabase';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -14,6 +15,12 @@ const Layout: React.FC<LayoutProps> = ({ children, user }) => {
   const [logoError, setLogoError] = useState(false);
   const [bgError, setBgError] = useState(false);
   const location = useLocation();
+  const [dbConnected, setDbConnected] = useState(false);
+
+  useEffect(() => {
+    // Check if supabase client is initialized
+    setDbConnected(!!supabase);
+  }, []);
 
   const navLinks = [
     { name: 'Metodología', path: '/methodology' },
@@ -87,8 +94,15 @@ const Layout: React.FC<LayoutProps> = ({ children, user }) => {
             {/* Desktop Right Menu */}
             <div className="hidden md:flex items-center gap-4">
                {/* Admin Shortcut for Demo */}
-              <Link to="/admin/leads" className="text-red-400 hover:text-red-300 text-xs font-bold uppercase tracking-wide border border-red-900/50 px-3 py-1 rounded bg-red-900/10 hover:bg-red-900/20 transition-colors">
+              <Link to="/admin/leads" className="flex items-center gap-2 text-slate-300 hover:text-white text-xs font-bold uppercase tracking-wide border border-slate-700 hover:border-[#1FB6D5] px-3 py-1.5 rounded bg-slate-800/50 hover:bg-slate-800 transition-all">
+                 <Database className="w-3 h-3" />
                  Admin DB
+                 {dbConnected && (
+                   <span className="relative flex h-2 w-2 ml-1">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                   </span>
+                 )}
               </Link>
 
               <div className="flex items-center md:ml-6 gap-4">
@@ -141,8 +155,12 @@ const Layout: React.FC<LayoutProps> = ({ children, user }) => {
                 </Link>
               ))}
               <div className="border-t border-slate-800 pt-3 mt-3">
+                <Link to="/admin/leads" onClick={() => setIsMenuOpen(false)} className="block px-3 py-2 text-base font-medium text-slate-400 hover:text-white flex items-center gap-2">
+                   <Database className="w-4 h-4" /> Admin DB
+                   {dbConnected && <span className="w-2 h-2 rounded-full bg-green-500"></span>}
+                </Link>
                 {user ? (
-                   <Link to="/dashboard" onClick={() => setIsMenuOpen(false)} className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-[#1FB6D5] bg-slate-800">
+                   <Link to="/dashboard" onClick={() => setIsMenuOpen(false)} className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-[#1FB6D5] bg-slate-800 mt-2">
                      Ir a mi Dashboard
                    </Link>
                 ) : (

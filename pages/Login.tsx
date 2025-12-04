@@ -1,3 +1,4 @@
+
 import React from 'react';
 import Layout from '../components/Layout';
 import Input from '../components/ui/Input';
@@ -40,7 +41,7 @@ const Login = () => {
 
             <Button type="button" variant="outline" fullWidth onClick={() => navigate('/dashboard')}>
               <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24"><path fill="currentColor" d="M12.545,10.239v3.821h5.445c-0.712,2.315-2.647,3.972-5.445,3.972c-3.332,0-6.033-2.536-6.033-5.696  c0-3.159,2.702-5.696,6.033-5.696c1.482,0,2.615,0.699,3.561,1.584L18.845,5.49C17.151,3.972,14.93,3,12.545,3  c-5.186,0-9.39,4.204-9.39,9.39s4.204,9.39,9.39,9.39c4.953,0,8.73-3.489,8.73-8.875c0-0.729-0.081-1.397-0.18-2.022H12.545z"/></svg>
-              Google (Demo)
+              Google
             </Button>
           </form>
 
@@ -52,7 +53,7 @@ const Login = () => {
                 onClick={() => navigate('/admin/leads')}
               >
                <Shield className="w-3 h-3 mr-2" />
-               Acceso Consultor / Admin
+               Acceso Consultor
              </Button>
           </div>
 

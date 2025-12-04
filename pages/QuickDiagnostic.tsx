@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Layout from '../components/Layout';
@@ -25,6 +26,7 @@ const QUESTIONS_7P = [
 
 const QuickDiagnostic = () => {
   const [step, setStep] = useState(0);
+  const [isSaving, setIsSaving] = useState(false); // UI Feedback
   const [formData, setFormData] = useState<QuickDiagnosticData>({
     businessType: BusinessType.RESTAURANT,
     city: '',
@@ -77,8 +79,9 @@ const QuickDiagnostic = () => {
     }));
   };
 
-  const nextStep = () => {
+  const nextStep = async () => {
     if (step === 4) {
+      setIsSaving(true);
       const res = calculateQuickDiagnostic(formData);
       const finalResult = {
         ...res,
@@ -89,8 +92,11 @@ const QuickDiagnostic = () => {
           business: formData.businessName
         }
       };
+      
       setResult(finalResult);
-      saveDiagnosticResult(finalResult); 
+      // Async Save to DB
+      await saveDiagnosticResult(finalResult); 
+      setIsSaving(false);
     }
     setStep(prev => prev + 1);
   };
@@ -390,10 +396,11 @@ const QuickDiagnostic = () => {
                     onClick={nextStep} 
                     fullWidth 
                     size="lg"
-                    disabled={!isContactValid}
+                    disabled={!isContactValid || isSaving}
                     className="shadow-xl bg-[#1FB6D5] text-[#021019] hover:bg-white hover:text-[#021019]"
                   >
-                    Ver mi Diagnóstico Final <ArrowRight className="w-4 h-4 ml-2" />
+                    {isSaving ? "Guardando..." : "Ver mi Diagnóstico Final"} 
+                    {!isSaving && <ArrowRight className="w-4 h-4 ml-2" />}
                   </Button>
                 </div>
              </div>
