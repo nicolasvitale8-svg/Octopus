@@ -1,26 +1,33 @@
 
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, BarChart2, LogOut, User as UserIcon, Database } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Menu, X, BarChart2, LogOut, Database } from 'lucide-react';
 import { APP_NAME, INSTAGRAM_URL, DISPLAY_PHONE, CONTACT_EMAIL, YOUTUBE_URL, WHATSAPP_NUMBER, GLOBAL_LOGO_URL, GLOBAL_BACKGROUND_IMAGE_URL } from '../constants';
 import { supabase } from '../services/supabase';
+import { useAuth } from '../services/auth';
 
 interface LayoutProps {
   children: React.ReactNode;
-  user?: any;
 }
 
-const Layout: React.FC<LayoutProps> = ({ children, user }) => {
+const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [logoError, setLogoError] = useState(false);
   const [bgError, setBgError] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+  const { user, isStaff, signOut } = useAuth();
   const [dbConnected, setDbConnected] = useState(false);
 
   useEffect(() => {
     // Check if supabase client is initialized
     setDbConnected(!!supabase);
   }, []);
+
+  const handleSignOut = async () => {
+    await signOut();
+    navigate('/');
+  };
 
   const navLinks = [
     { name: 'Metodología', path: '/methodology' },
@@ -93,17 +100,19 @@ const Layout: React.FC<LayoutProps> = ({ children, user }) => {
             
             {/* Desktop Right Menu */}
             <div className="hidden md:flex items-center gap-4">
-               {/* Admin Shortcut for Demo */}
-              <Link to="/admin/leads" className="flex items-center gap-2 text-slate-300 hover:text-white text-xs font-bold uppercase tracking-wide border border-slate-700 hover:border-[#1FB6D5] px-3 py-1.5 rounded bg-slate-800/50 hover:bg-slate-800 transition-all">
-                 <Database className="w-3 h-3" />
-                 Admin DB
-                 {dbConnected && (
-                   <span className="relative flex h-2 w-2 ml-1">
+              {/* Admin Shortcut: solo visible para admins autenticados */}
+              {isStaff && (
+                <Link to="/admin/leads" className="flex items-center gap-2 text-slate-300 hover:text-white text-xs font-bold uppercase tracking-wide border border-slate-700 hover:border-[#1FB6D5] px-3 py-1.5 rounded bg-slate-800/50 hover:bg-slate-800 transition-all">
+                  <Database className="w-3 h-3" />
+                  Admin DB
+                  {dbConnected && (
+                    <span className="relative flex h-2 w-2 ml-1">
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                       <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-                   </span>
-                 )}
-              </Link>
+                    </span>
+                  )}
+                </Link>
+              )}
 
               <div className="flex items-center md:ml-6 gap-4">
                 {user ? (
@@ -112,7 +121,7 @@ const Layout: React.FC<LayoutProps> = ({ children, user }) => {
                       <BarChart2 className="w-4 h-4" />
                       Mi Tablero
                     </Link>
-                    <button className="text-slate-400 hover:text-white transition-colors" title="Salir">
+                    <button onClick={handleSignOut} className="text-slate-400 hover:text-white transition-colors" title="Salir" aria-label="Cerrar sesión">
                       <LogOut className="w-5 h-5" />
                     </button>
                    </>
@@ -155,14 +164,24 @@ const Layout: React.FC<LayoutProps> = ({ children, user }) => {
                 </Link>
               ))}
               <div className="border-t border-slate-800 pt-3 mt-3">
-                <Link to="/admin/leads" onClick={() => setIsMenuOpen(false)} className="block px-3 py-2 text-base font-medium text-slate-400 hover:text-white flex items-center gap-2">
-                   <Database className="w-4 h-4" /> Admin DB
-                   {dbConnected && <span className="w-2 h-2 rounded-full bg-green-500"></span>}
-                </Link>
+                {isStaff && (
+                  <Link to="/admin/leads" onClick={() => setIsMenuOpen(false)} className="px-3 py-2 text-base font-medium text-slate-400 hover:text-white flex items-center gap-2">
+                    <Database className="w-4 h-4" /> Admin DB
+                    {dbConnected && <span className="w-2 h-2 rounded-full bg-green-500"></span>}
+                  </Link>
+                )}
                 {user ? (
-                   <Link to="/dashboard" onClick={() => setIsMenuOpen(false)} className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-[#1FB6D5] bg-slate-800 mt-2">
-                     Ir a mi Dashboard
-                   </Link>
+                  <>
+                    <Link to="/dashboard" onClick={() => setIsMenuOpen(false)} className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-[#1FB6D5] bg-slate-800 mt-2">
+                      Ir a mi Dashboard
+                    </Link>
+                    <button
+                      onClick={() => { setIsMenuOpen(false); handleSignOut(); }}
+                      className="mt-2 block w-full text-left px-3 py-2 text-base font-medium text-slate-400 hover:text-white"
+                    >
+                      Cerrar sesión
+                    </button>
+                  </>
                 ) : (
                   <>
                     <Link to="/login" onClick={() => setIsMenuOpen(false)} className="block px-3 py-2 text-base font-medium text-slate-300 hover:text-white">
@@ -205,7 +224,9 @@ const Layout: React.FC<LayoutProps> = ({ children, user }) => {
               <ul className="space-y-2 text-sm text-slate-500">
                 <li><Link to="/quick-diagnostic" className="hover:text-[#1FB6D5] transition-colors">Diagnóstico Madame Oracle</Link></li>
                 <li><Link to="/login" className="hover:text-[#1FB6D5] transition-colors">Iniciar Sesión</Link></li>
-                <li><Link to="/admin/leads" className="hover:text-[#1FB6D5] transition-colors">Acceso Consultor</Link></li>
+                {isStaff && (
+                  <li><Link to="/admin/leads" className="hover:text-[#1FB6D5] transition-colors">Panel Consultor</Link></li>
+                )}
               </ul>
             </div>
             <div>

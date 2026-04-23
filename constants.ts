@@ -20,9 +20,20 @@ export const TECHNICAL_SHEETS_EXAMPLE_URL = "#";
 export const PROCESS_EXAMPLE_URL = "#";
 
 // --- SUPABASE CONFIGURATION ---
-// Configuración inyectada automáticamente.
-export const SUPABASE_URL = (import.meta as any).env?.VITE_SUPABASE_URL || "https://hmyzuuujyurvyuusvyzp.supabase.co"; 
-export const SUPABASE_ANON_KEY = (import.meta as any).env?.VITE_SUPABASE_ANON_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhteXp1dXVqeXVydnl1dXN2eXpwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3MDUyMjgsImV4cCI6MjA4MDI4MTIyOH0.PSXTNZoGg2alqdtlGuluWsvMbu2dnGIJuxjdGPCTWrQ"; 
+// Las credenciales SIEMPRE vienen de variables de entorno (.env local o Vercel env).
+// Nunca hardcodear en el repo: aunque la anon key sea pública, la estrategia de
+// rotación y el control de acceso dependen de mantenerla fuera del código.
+const viteEnv = (import.meta as any).env ?? {};
+export const SUPABASE_URL: string = viteEnv.VITE_SUPABASE_URL ?? "";
+export const SUPABASE_ANON_KEY: string = viteEnv.VITE_SUPABASE_ANON_KEY ?? "";
+
+if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+  // Aviso en consola en dev; en prod el cliente quedará null y la app funciona offline.
+  console.warn(
+    "[Octopus] Faltan VITE_SUPABASE_URL y/o VITE_SUPABASE_ANON_KEY. " +
+    "La app arranca en modo offline (solo localStorage)."
+  );
+}
 
 // --- METHODOLOGY DATA ---
 export const METHODOLOGY_7P = [

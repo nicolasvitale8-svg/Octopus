@@ -94,8 +94,8 @@ const QuickDiagnostic = () => {
       };
       
       setResult(finalResult);
-      // Async Save to DB
-      await saveDiagnosticResult(finalResult); 
+      // Async Save to DB (pasa el input crudo para guardar city/businessType/monthlyRevenue)
+      await saveDiagnosticResult(finalResult, formData);
       setIsSaving(false);
     }
     setStep(prev => prev + 1);

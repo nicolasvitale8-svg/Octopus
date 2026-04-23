@@ -48,7 +48,7 @@ const DeepDiagnostic = () => {
   const TABS = ['Ventas', 'Costo Mercadería', 'Mano de Obra', 'Gastos Fijos'];
 
   return (
-    <Layout user={{ name: "User" }}>
+    <Layout>
       <div className="max-w-4xl mx-auto px-4 py-8">
         <div className="mb-6 flex justify-between items-end">
            <div>

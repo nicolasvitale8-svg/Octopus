@@ -9,8 +9,10 @@ import { formatCurrency, formatPercent } from '../services/calculations';
 import { getDiagnosticHistory, getLastDiagnostic } from '../services/storage';
 
 const Dashboard = () => {
+  // El contexto real del usuario vive en useAuth (services/auth.tsx).
+  // Se mantiene un fallback visual para el saludo.
   const user = { name: "Gastronómico", businessName: "Mi Negocio" };
-  const [history, setHistory] = useState<any[]>(MOCK_HISTORY); 
+  const [history, setHistory] = useState<any[]>(MOCK_HISTORY);
   const [lastDiagnostic, setLastDiagnostic] = useState<any>(null);
 
   useEffect(() => {
@@ -35,7 +37,7 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <Layout user={user}>
+    <Layout>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
